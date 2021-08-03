@@ -1,7 +1,6 @@
 package com.delug3.marvelapp.character.presenter
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.delug3.marvelapp.character.model.MarvelResponse
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.repository.CharacterApiService
@@ -12,13 +11,11 @@ import com.delug3.marvelapp.common.utilities.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.ArrayList
 
 
-class CharactersPresenter(charactersMainActivity: CharactersMainActivity) : Characters.Presenter {
+class CharactersPresenter(private var charactersView: CharactersMainActivity) :
+    Characters.Presenter {
 
-    var charactersList: List<ResultsItem>? = null
-    var list: ArrayList<ResultsItem>? = null
     override fun getCharacters() {
         val service = getClientPublic?.create(CharacterApiService::class.java)
         val call =
@@ -29,9 +26,10 @@ class CharactersPresenter(charactersMainActivity: CharactersMainActivity) : Char
                 response: Response<MarvelResponse?>
             ) {
                 if (response.isSuccessful) {
-
                     val result = response.body()?.data?.results
-
+                    if (result != null) {
+                        charactersView.setAdapter(result as ArrayList<ResultsItem?>)
+                    }
                 } else {
                     Log.e(TAG, "onResponse: " + response.errorBody())
                 }

@@ -4,10 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.delug3.marvelapp.character.model.ResultsItem
+import com.delug3.marvelapp.character.view.CharactersMainActivity
 import com.delug3.marvelapp.databinding.ItemsCharactersBinding
-import java.util.*
+import kotlin.collections.ArrayList
 
-class CharactersListAdapter(private val charactersList: MutableList<ResultsItem>) :
+class CharactersListAdapter(
+    private val charactersMainActivity: CharactersMainActivity,
+    private var charactersList: ArrayList<ResultsItem?>
+) :
     RecyclerView.Adapter<CharactersListAdapter.ViewHolder?>() {
 
 
@@ -19,7 +23,9 @@ class CharactersListAdapter(private val charactersList: MutableList<ResultsItem>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val resultsItem = charactersList[position]
-        holder.bind(resultsItem)
+        if (resultsItem != null) {
+            holder.bind(resultsItem)
+        }
         //holder.itemView.setOnClickListener { charactersActivity.onCharacterItemClick(position) }
     }
 
@@ -27,8 +33,8 @@ class CharactersListAdapter(private val charactersList: MutableList<ResultsItem>
         return charactersList.size
     }
 
-    fun addCharactersList(charactersList: ArrayList<ResultsItem>?) {
-        charactersList?.addAll(charactersList)
+    fun setCharacters(characters: ArrayList<ResultsItem?>) {
+        characters.let { charactersList.addAll(it) }
         notifyDataSetChanged()
     }
 
@@ -36,7 +42,6 @@ class CharactersListAdapter(private val charactersList: MutableList<ResultsItem>
         RecyclerView.ViewHolder(binding.root) {
         fun bind(resultsItem: ResultsItem) {
             binding.tvName.text = resultsItem.name
-            binding.tvDescription.text = resultsItem.description
         }
     }
 

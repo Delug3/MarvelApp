@@ -6,7 +6,7 @@ import java.util.*
 interface Characters {
 
     interface View {
-        fun setCharactersList(charactersList: ArrayList<ResultsItem?>?)
+        fun setAdapter(charactersList: ArrayList<ResultsItem?>)
     }
 
     interface Presenter {

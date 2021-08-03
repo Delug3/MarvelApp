@@ -6,18 +6,19 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.delug3.marvelapp.character.adapter.CharactersListAdapter
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.presenter.CharactersPresenter
 import com.delug3.marvelapp.databinding.ActivityMainCharactersBinding
 
 
-class CharactersMainActivity : AppCompatActivity() {
+class CharactersMainActivity : AppCompatActivity(), Characters.View {
 
     lateinit var binding: ActivityMainCharactersBinding
     private var charactersListAdapter: CharactersListAdapter? = null
-    var charactersList: MutableList<ResultsItem?> = ArrayList()
-
+    private var charactersList: ArrayList<ResultsItem?> = ArrayList()
     private var charactersPresenter: CharactersPresenter? = null
 
 
@@ -31,37 +32,37 @@ class CharactersMainActivity : AppCompatActivity() {
 
         setUpRecyclerView()
 
-        getData()
+        checkConnectivity()
     }
 
 
     private fun setUpRecyclerView() {
-        /*charactersListAdapter = CharactersListAdapter(this, charactersList)
-        binding.recyclerViewPosts.adapter = postsAdapter
-        binding.recyclerViewPosts.setHasFixedSize(true)
+        charactersListAdapter = CharactersListAdapter(this, charactersList)
+        binding.recyclerViewCharacters.adapter = charactersListAdapter
+        binding.recyclerViewCharacters.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewPosts.layoutManager = layoutManager
-
-        binding.recyclerViewPosts.addItemDecoration(
+        binding.recyclerViewCharacters.layoutManager = layoutManager
+        binding.recyclerViewCharacters.addItemDecoration(
             DividerItemDecoration(
-                binding.recyclerViewPosts.getContext(),
+                binding.recyclerViewCharacters.getContext(),
                 DividerItemDecoration.VERTICAL
             )
-        )*/
+        )
     }
 
-    private fun getData() {
+    private fun checkConnectivity() {
         val connection = isInternetAvailable(this)
         if (connection) {
-            sendDataToRecyclerView()
+            getData()
         } else {
             //error
         }
     }
 
-    private fun sendDataToRecyclerView() {
+    private fun getData() {
         charactersPresenter?.getCharacters()
     }
+
 
     private fun isInternetAvailable(context: Context): Boolean {
         var result = false
@@ -92,6 +93,10 @@ class CharactersMainActivity : AppCompatActivity() {
         }
 
         return result
+    }
+
+    override fun setAdapter(charactersList: ArrayList<ResultsItem?>) {
+        charactersListAdapter?.setCharacters(charactersList)
     }
 
 
