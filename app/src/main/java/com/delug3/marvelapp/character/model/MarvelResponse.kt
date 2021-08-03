@@ -2,7 +2,7 @@ package com.delug3.marvelapp.character.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Response(
+data class MarvelResponse(
 
     @field:SerializedName("copyright")
     val copyright: String? = null,

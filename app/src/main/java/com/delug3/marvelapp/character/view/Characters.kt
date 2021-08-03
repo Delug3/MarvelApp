@@ -10,7 +10,7 @@ interface Characters {
     }
 
     interface Presenter {
-
+       fun getCharacters()
     }
 
     interface Model

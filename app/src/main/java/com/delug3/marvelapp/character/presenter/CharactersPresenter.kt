@@ -1,40 +1,51 @@
 package com.delug3.marvelapp.character.presenter
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import com.delug3.marvelapp.character.model.MarvelResponse
+import com.delug3.marvelapp.character.model.ResultsItem
+import com.delug3.marvelapp.character.repository.CharacterApiService
 import com.delug3.marvelapp.character.view.Characters
+import com.delug3.marvelapp.character.view.CharactersMainActivity
+import com.delug3.marvelapp.common.network.RetrofitClient.getClientPublic
 import com.delug3.marvelapp.common.utilities.Constants
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import kotlin.experimental.and
-import kotlin.experimental.or
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.ArrayList
 
-class CharactersPresenter() : Characters.Presenter {
 
-    private var md5Key: String? = null
+class CharactersPresenter(charactersMainActivity: CharactersMainActivity) : Characters.Presenter {
 
-    fun getCharacters() {
-        if (md5Key == null) {
-            getMd5Key()
-        }
+    var charactersList: List<ResultsItem>? = null
+    var list: ArrayList<ResultsItem>? = null
+    override fun getCharacters() {
+        val service = getClientPublic?.create(CharacterApiService::class.java)
+        val call =
+            service?.getEpisodes(Constants.timeStamp, Constants.PUBLIC_KEY, Constants.hashKey())
+        call!!.enqueue(object : Callback<MarvelResponse?> {
+            override fun onResponse(
+                call: Call<MarvelResponse?>,
+                response: Response<MarvelResponse?>
+            ) {
+                if (response.isSuccessful) {
 
+                    val result = response.body()?.data?.results
+
+                } else {
+                    Log.e(TAG, "onResponse: " + response.errorBody())
+                }
+            }
+
+            override fun onFailure(call: Call<MarvelResponse?>, t: Throwable) {
+                Log.e(TAG, "onFailure" + t.message)
+
+            }
+        })
     }
 
-    private fun getMd5Key(): String? {
-        val input = Constants().TIME_STAMP + Constants().PRIVATE_KEY + Constants().PUBLIC_KEY
-        try {
-            val md = MessageDigest.getInstance("MD5")
-            val md5Bytes = md.digest(input.toByteArray())
-            val md5 = StringBuilder()
-            for (md5Byte in md5Bytes) {
-                md5.append(
-                    Integer.toHexString((md5Byte and 0xFF.toByte() or 0x100.toByte()).toInt())
-                        .substring(1, 3)
-                )
-            }
-            md5Key = md5.toString()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-        return md5Key
+    companion object {
+        private const val TAG = "CHARACTERS"
     }
 
 }
