@@ -7,10 +7,19 @@ import retrofit2.http.Query
 
 interface CharacterApiService {
 
+    /* @GET("/v1/public/characters")
+     fun getCharacters(
+         @Query("ts") ts: String?,
+         @Query("apikey") apikey: String?,
+         @Query("hash") hash: String?
+     ): Call<MarvelResponse?>?
+
+     */
+
     @GET("/v1/public/characters")
-    fun getEpisodes(
+    suspend fun getCharacters(
         @Query("ts") ts: String?,
         @Query("apikey") apikey: String?,
         @Query("hash") hash: String?
-    ): Call<MarvelResponse?>?
+    ): MarvelResponse
 }

@@ -6,29 +6,27 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.delug3.marvelapp.character.adapter.CharactersListAdapter
 import com.delug3.marvelapp.character.model.ResultsItem
-import com.delug3.marvelapp.character.presenter.CharactersPresenter
+import com.delug3.marvelapp.character.viewmodel.CharactersViewModel
 import com.delug3.marvelapp.databinding.ActivityMainCharactersBinding
 
 
-class CharactersMainActivity : AppCompatActivity(), Characters.View {
+class CharactersMainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainCharactersBinding
     private var charactersListAdapter: CharactersListAdapter? = null
     private var charactersList: ArrayList<ResultsItem?> = ArrayList()
-    private var charactersPresenter: CharactersPresenter? = null
-
+    private val charactersViewModel: CharactersViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainCharactersBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        charactersPresenter = CharactersPresenter(this)
 
         setUpRecyclerView()
 
@@ -53,14 +51,16 @@ class CharactersMainActivity : AppCompatActivity(), Characters.View {
     private fun checkConnectivity() {
         val connection = isInternetAvailable(this)
         if (connection) {
-            getData()
+            sendDataToAdapter()
         } else {
             //error
         }
     }
 
-    private fun getData() {
-        charactersPresenter?.getCharacters()
+    private fun sendDataToAdapter() {
+        charactersViewModel.fetchCharacters()?.observe(this, { characters ->
+            characters?.let { charactersListAdapter?.setCharacters(it) }
+        })
     }
 
 
@@ -94,10 +94,4 @@ class CharactersMainActivity : AppCompatActivity(), Characters.View {
 
         return result
     }
-
-    override fun setAdapter(charactersList: ArrayList<ResultsItem?>) {
-        charactersListAdapter?.setCharacters(charactersList)
-    }
-
-
 }

@@ -33,7 +33,7 @@ class CharactersListAdapter(
         return charactersList.size
     }
 
-    fun setCharacters(characters: ArrayList<ResultsItem?>) {
+    fun setCharacters(characters: List<ResultsItem?>) {
         characters.let { charactersList.addAll(it) }
         notifyDataSetChanged()
     }
