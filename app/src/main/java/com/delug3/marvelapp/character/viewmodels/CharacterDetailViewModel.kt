@@ -3,6 +3,8 @@ package com.delug3.marvelapp.character.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.delug3.marvelapp.character.model.Comics
+import com.delug3.marvelapp.character.model.ItemsItem
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.model.Thumbnail
 import com.delug3.marvelapp.character.repository.CharacterApiService
@@ -15,6 +17,7 @@ class CharacterDetailViewModel : ViewModel() {
     val characterName: MutableLiveData<String>? by lazy { MutableLiveData<String>() }
     val characterDescription: MutableLiveData<String>? by lazy { MutableLiveData<String>() }
     val characterThumbnail: MutableLiveData<Thumbnail> by lazy { MutableLiveData<Thumbnail>() }
+    val characterAppearanceInComics: MutableLiveData<List<ItemsItem>?> by lazy { MutableLiveData<List<ItemsItem>?>() }
 
     fun setCharacterId(characterId: Int) {
         this.id = characterId
@@ -33,6 +36,8 @@ class CharacterDetailViewModel : ViewModel() {
             characterName?.value = character?.first()?.name
             characterDescription?.value = character?.first()?.description
             characterThumbnail.value = character?.first()?.thumbnail
+            characterAppearanceInComics.value =
+                character?.first()?.comics?.items as List<ItemsItem>?
         }
     }
 }
