@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,7 +54,7 @@ class CharactersMainActivity : AppCompatActivity() {
         if (connection) {
             sendDataToAdapter()
         } else {
-            //error
+            Toast.makeText(applicationContext, Constants.NO_CONNECTION, Toast.LENGTH_SHORT).show()
         }
     }
 
