@@ -1,6 +1,7 @@
 package com.delug3.marvelapp.character.view
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -11,12 +12,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.delug3.marvelapp.character.adapter.CharactersListAdapter
 import com.delug3.marvelapp.character.model.ResultsItem
-import com.delug3.marvelapp.character.viewmodel.CharactersViewModel
+import com.delug3.marvelapp.character.viewmodels.CharactersViewModel
+import com.delug3.marvelapp.common.utilities.Constants
 import com.delug3.marvelapp.databinding.ActivityMainCharactersBinding
 
 
 class CharactersMainActivity : AppCompatActivity() {
-
     lateinit var binding: ActivityMainCharactersBinding
     private var charactersListAdapter: CharactersListAdapter? = null
     private var charactersList: ArrayList<ResultsItem?> = ArrayList()
@@ -29,7 +30,6 @@ class CharactersMainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpRecyclerView()
-
         checkConnectivity()
     }
 
@@ -93,5 +93,16 @@ class CharactersMainActivity : AppCompatActivity() {
         }
 
         return result
+    }
+
+    fun onCharacterItemClick(position: Int) {
+        val characterId: Int? = charactersList[position]?.id
+        openCharacterActivityDetails(characterId)
+    }
+
+    private fun openCharacterActivityDetails(characterId: Int?) {
+        val intent = Intent(this, CharacterDetailActivity::class.java)
+        intent.putExtra(Constants.CHARACTER_ID, characterId)
+        startActivity(intent)
     }
 }

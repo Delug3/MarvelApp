@@ -6,10 +6,12 @@ import java.security.MessageDigest
 class Constants {
 
     companion object {
+        val timeStamp = System.currentTimeMillis().toString()
+
         const val BASE_URL = "https://gateway.marvel.com/"
         const val PUBLIC_KEY = "3bdb4c120b096da4fc94c7c938a9b33f"
         const val PRIVATE_KEY = "ac93aa83c707d957155ab6a1c2c7ca13f63e9b4f"
-        val timeStamp = System.currentTimeMillis().toString()
+        const val CHARACTER_ID = "CHARACTER_ID"
 
 
         fun hashKey(): String {

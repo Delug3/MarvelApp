@@ -1,4 +1,4 @@
-package com.delug3.marvelapp.character.viewmodel
+package com.delug3.marvelapp.character.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

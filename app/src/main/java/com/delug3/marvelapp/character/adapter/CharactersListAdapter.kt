@@ -26,7 +26,7 @@ class CharactersListAdapter(
         if (resultsItem != null) {
             holder.bind(resultsItem)
         }
-        //holder.itemView.setOnClickListener { charactersActivity.onCharacterItemClick(position) }
+        holder.itemView.setOnClickListener { charactersMainActivity.onCharacterItemClick(position) }
     }
 
     override fun getItemCount(): Int {
