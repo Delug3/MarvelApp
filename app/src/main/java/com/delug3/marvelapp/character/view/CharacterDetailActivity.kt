@@ -34,7 +34,6 @@ class CharacterDetailActivity : AppCompatActivity() {
         }
         setCharacterId(characterId)
         getData()
-
         initUI()
     }
 
@@ -50,9 +49,7 @@ class CharacterDetailActivity : AppCompatActivity() {
     }
 
     private fun setComicsAppearance() {
-        val comics = Observer<List<ItemsItem>?> { comics ->
-            setComicsAppearanceDynamically(comics)
-        }
+        val comics = Observer<List<ItemsItem>?> { comics -> setComicsAppearanceDynamically(comics) }
         characterDetailViewModel.characterAppearanceInComics.observe(this, comics)
     }
 
@@ -77,9 +74,8 @@ class CharacterDetailActivity : AppCompatActivity() {
     }
 
     private fun setCharacterName() {
-        val characterNameObserver = Observer<String> { characterName ->
-            binding.tvName.text = characterName
-        }
+        val characterNameObserver =
+            Observer<String> { characterName -> binding.tvName.text = characterName }
         characterDetailViewModel.characterName?.observe(this, characterNameObserver)
     }
 

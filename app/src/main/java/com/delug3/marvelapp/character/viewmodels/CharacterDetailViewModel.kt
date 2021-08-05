@@ -3,7 +3,6 @@ package com.delug3.marvelapp.character.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.delug3.marvelapp.character.model.Comics
 import com.delug3.marvelapp.character.model.ItemsItem
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.model.Thumbnail
