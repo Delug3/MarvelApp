@@ -1,10 +1,6 @@
 package com.delug3.marvelapp.character.view
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -14,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.delug3.marvelapp.character.adapter.CharactersListAdapter
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.viewmodels.CharactersViewModel
+import com.delug3.marvelapp.common.utilities.CommonUtils
 import com.delug3.marvelapp.common.utilities.Constants
 import com.delug3.marvelapp.databinding.ActivityMainCharactersBinding
 
@@ -50,8 +47,7 @@ class CharactersMainActivity : AppCompatActivity() {
     }
 
     private fun checkConnectivity() {
-        val connection = isInternetAvailable(this)
-        if (connection) {
+        if (CommonUtils.isInternetAvailable(this)) {
             sendDataToAdapter()
         } else {
             Toast.makeText(applicationContext, Constants.NO_CONNECTION, Toast.LENGTH_SHORT).show()
@@ -62,38 +58,6 @@ class CharactersMainActivity : AppCompatActivity() {
         charactersViewModel.fetchCharacters()?.observe(this, { characters ->
             characters?.let { charactersListAdapter?.setCharacters(it) }
         })
-    }
-
-
-    private fun isInternetAvailable(context: Context): Boolean {
-        var result = false
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val networkCapabilities = connectivityManager.activeNetwork ?: return false
-            val actNw =
-                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-            result = when {
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            connectivityManager.run {
-                connectivityManager.activeNetworkInfo?.run {
-                    result = when (type) {
-                        ConnectivityManager.TYPE_WIFI -> true
-                        ConnectivityManager.TYPE_MOBILE -> true
-                        ConnectivityManager.TYPE_ETHERNET -> true
-                        else -> false
-                    }
-
-                }
-            }
-        }
-
-        return result
     }
 
     fun onCharacterItemClick(position: Int) {
