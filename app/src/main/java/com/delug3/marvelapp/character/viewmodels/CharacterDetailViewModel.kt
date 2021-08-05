@@ -24,19 +24,25 @@ class CharacterDetailViewModel : ViewModel() {
 
     fun getCharacterDetails() {
         viewModelScope.launch {
-            val response = RetrofitClient.getClientPublic?.create(CharacterApiService::class.java)
-                ?.getCharacterDetails(
-                    id,
-                    Constants.timeStamp,
-                    Constants.PUBLIC_KEY,
-                    Constants.hashKey()
-                )
-            val character = response?.data?.results as List<ResultsItem>?
-            characterName?.value = character?.first()?.name
-            characterDescription?.value = character?.first()?.description
-            characterThumbnail.value = character?.first()?.thumbnail
-            characterAppearanceInComics.value =
-                character?.first()?.comics?.items as List<ItemsItem>?
+            try {
+                val response =
+                    RetrofitClient.getClientPublic?.create(CharacterApiService::class.java)
+                        ?.getCharacterDetails(
+                            id,
+                            Constants.timeStamp,
+                            Constants.PUBLIC_KEY,
+                            Constants.hashKey()
+                        )
+                val character = response?.data?.results as List<ResultsItem>?
+                characterName?.value = character?.first()?.name
+                characterDescription?.value = character?.first()?.description
+                characterThumbnail.value = character?.first()?.thumbnail
+                characterAppearanceInComics.value =
+                    character?.first()?.comics?.items as List<ItemsItem>?
+
+            } catch (exception: Exception) {
+                println("Handle $exception")
+            }
         }
     }
 }
