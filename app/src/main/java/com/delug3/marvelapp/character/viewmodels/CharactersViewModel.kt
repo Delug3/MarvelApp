@@ -15,6 +15,7 @@ class CharactersViewModel : ViewModel() {
     fun fetchCharacters(): MutableLiveData<List<ResultsItem>> {
         val charactersList: MutableLiveData<List<ResultsItem>> =
             MutableLiveData<List<ResultsItem>>()
+        //TODO add comments
         viewModelScope.launch {
             try {
                 val response = getClientPublic?.create(CharacterApiService::class.java)

@@ -1,6 +1,6 @@
-Marvel App Mobile Test
+Marvel App Test
 
-App that shows a list of Marvel Characters with details of each one.
+App that shows a list of Marvel Characters with details of each one in a second view.
 
 Endpoint: /v1/public/characters
 
