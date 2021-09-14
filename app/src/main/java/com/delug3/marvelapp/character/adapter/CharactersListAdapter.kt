@@ -3,9 +3,11 @@ package com.delug3.marvelapp.character.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.delug3.marvelapp.R
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.view.CharactersMainActivity
 import com.delug3.marvelapp.databinding.ItemsCharactersBinding
+import com.squareup.picasso.Picasso
 import kotlin.collections.ArrayList
 
 class CharactersListAdapter(
@@ -42,6 +44,7 @@ class CharactersListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(resultsItem: ResultsItem) {
             binding.tvName.text = resultsItem.name
+            Picasso.get().load(R.drawable.error).into(binding.ivCharacterImage)
         }
     }
 
