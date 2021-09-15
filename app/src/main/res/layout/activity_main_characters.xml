@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BC000000"
+    android:background="#E91E1E"
     tools:context=".character.view.CharactersMainActivity">
 
     <TextView
@@ -12,11 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Marvel Characters List"
-        android:textAllCaps="true"
-        android:textColor="#DD2C00"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
+        android:fontFamily="@font/rajdhani"
+        android:text="Marvel"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
