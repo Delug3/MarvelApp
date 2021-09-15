@@ -57,8 +57,7 @@ class CharacterDetailActivity : AppCompatActivity() {
     private fun setCharacterImage() {
         val characterThumbnailObserver = Observer<Thumbnail> { characterThumbnail ->
             val thumbnail = "${characterThumbnail.path}.${characterThumbnail.extension}"
-            val secureThumbnail: String = thumbnail.replace("http", "https")
-            Picasso.get().load(secureThumbnail).error(R.drawable.error).into(binding.ivCharacter)
+            Picasso.get().load(thumbnail).error(R.drawable.error).into(binding.ivCharacter)
         }
         characterDetailViewModel.characterThumbnail.observe(this, characterThumbnailObserver)
     }
