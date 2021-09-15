@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#31000000">
+        android:background="#000000">
 
         <TextView
             android:id="@+id/tv_name"
@@ -21,7 +21,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:fontFamily="@font/rajdhani"
-            android:textColor="#DD2C00"
+            android:textColor="#FFFFFF"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
             android:layout_marginRight="16dp"
             android:fontFamily="@font/rajdhani"
             android:text="@string/app_name"
-            android:textColor="#DD2C00"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
                 android:fontFamily="@font/rajdhani"
                 android:padding="5sp"
                 android:text="@string/comic_appearance"
-                android:textColor="#DD2C00"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
