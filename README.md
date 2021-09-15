@@ -1,19 +1,33 @@
-Marvel App Test
+# Marvel Characters
+Android app that displays a list of marvel characters and the details of each character
 
-App that shows a list of Marvel Characters with details of each one in a second view.
+**Endpoint:** /v1/public/characters
 
-Endpoint: /v1/public/characters
+# Structure
+The app is implemented based on MVVM design pattern.
 
-Functionalities:
+**Models:** represented as data classes that provide the needed data to be displayed in the views from network.
 
-Data is obtained when there is internet connection automatically. If the internet connection is gone, it wont retrieve the data.
+**ViewModels:** the logic of how to retrieve the data from backend or network in our case is Marvel API.
 
-App show a list of characters. (FULLY IMPLEMENTED) RecyclerView added here to show the data, format: linearLayout
+**Views:** the app UI that contains two activities. Each one is responsible for displaying it's data.
 
-Selection of character and details. (FULLY IMPLEMENTED) Implemented a second activity, when user click on an item a method will get the character id and send it to a new activity
+# Dependencies
+**Android architecture components:**
 
-Usability: Implemented recyclerview over listview and constraint layout over relative, last version of android too.
+ ViewModel
 
-Libraries: retrofit2, gson and Picasso. Will replace gson with moshi probably
+ LiveData
+  
+**Libraries:**  
 
-Architecture: Implemented with MVP at first, but replaced with MVVM
+Retrofit
+
+Gson
+
+Picasso
+
+# Screenshots
+![Main Activity](https://github.com/Delug3/MarvelApp/blob/master/main_marvel_api.png)
+![Details Activity](https://github.com/Delug3/MarvelApp/blob/master/detail_marvel_api.png)
+
