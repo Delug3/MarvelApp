@@ -84,6 +84,7 @@ class CharacterDetailActivity : AppCompatActivity() {
         if (comics?.isEmpty() == true) {
             val tvDynamic = TextView(this)
             tvDynamic.textSize = 15f
+            tvDynamic.setTextColor(ContextCompat.getColor(this,R.color.white))
             tvDynamic.text = Constants.NO_COMICS
             tvDynamic.setTextColor(ContextCompat.getColor(this,R.color.white))
             binding.llComicsLayout.addView(tvDynamic)
