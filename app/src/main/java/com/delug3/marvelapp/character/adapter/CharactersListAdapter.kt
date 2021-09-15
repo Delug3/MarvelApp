@@ -1,11 +1,13 @@
 package com.delug3.marvelapp.character.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.delug3.marvelapp.R
 import com.delug3.marvelapp.character.model.ResultsItem
 import com.delug3.marvelapp.character.view.CharactersMainActivity
+import com.delug3.marvelapp.common.utilities.Constants
 import com.delug3.marvelapp.databinding.ItemsCharactersBinding
 import com.squareup.picasso.Picasso
 import kotlin.collections.ArrayList
@@ -35,6 +37,7 @@ class CharactersListAdapter(
         return charactersList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setCharacters(characters: List<ResultsItem?>) {
         characters.let { charactersList.addAll(it) }
         notifyDataSetChanged()
@@ -43,7 +46,12 @@ class CharactersListAdapter(
     class ViewHolder(private val binding: ItemsCharactersBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(resultsItem: ResultsItem) {
-            binding.tvName.text = resultsItem.name
+            //checking if the name is empty, in that case we add a value from Constants
+            if (resultsItem.name == "") {
+                binding.tvName.text = Constants.NO_NAME
+            } else {
+                binding.tvName.text = resultsItem.name
+            }
             Picasso.get().load(R.drawable.error).into(binding.ivCharacterImage)
         }
     }

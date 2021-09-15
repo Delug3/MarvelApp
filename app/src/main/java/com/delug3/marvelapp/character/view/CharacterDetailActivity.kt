@@ -38,10 +38,18 @@ class CharacterDetailActivity : AppCompatActivity() {
         initUI()
     }
 
+
+    /**This method get the character details from an API using a coroutine
+     *
+     */
     private fun getData() {
         characterDetailViewModel.getCharacterDetails()
     }
 
+
+    /**This method set up the character data : name, description and image
+     *
+     */
     private fun initUI() {
         setCharacterName()
         setCharacterDescription()
@@ -49,11 +57,19 @@ class CharacterDetailActivity : AppCompatActivity() {
         setComicsAppearance()
     }
 
+
+    /**This method observe a list of comics
+     * When a change happens, the method create a dynamic list of comics
+     */
     private fun setComicsAppearance() {
         val comics = Observer<List<ItemsItem>?> { comics -> setComicsAppearanceDynamically(comics) }
         characterDetailViewModel.characterAppearanceInComics.observe(this, comics)
     }
 
+
+    /**Required method to set the marvel image in the imageView
+     *Added an extra image to show in case that no image is available or an error happens when loading the resource
+     */
     private fun setCharacterImage() {
         val characterThumbnailObserver = Observer<Thumbnail> { characterThumbnail ->
             val thumbnail = "${characterThumbnail.path}.${characterThumbnail.extension}"
@@ -62,6 +78,11 @@ class CharacterDetailActivity : AppCompatActivity() {
         characterDetailViewModel.characterThumbnail.observe(this, characterThumbnailObserver)
     }
 
+
+    /**This method set up the character description
+     * We check here if the description is empty, in that case a value replace the empty value
+     * The new value is stored in the Constants file
+     */
     private fun setCharacterDescription() {
         val characterDescriptionObserver = Observer<String> { characterDescription ->
             if (characterDescription == "") {
@@ -73,17 +94,29 @@ class CharacterDetailActivity : AppCompatActivity() {
         characterDetailViewModel.characterDescription?.observe(this, characterDescriptionObserver)
     }
 
+
+    /**This Method add the character name to the textview
+     *If the name is empty, we replace the value with one coming from the Constants file
+     */
     private fun setCharacterName() {
-        val characterNameObserver =
-            Observer<String> { characterName -> binding.tvName.text = characterName }
+        val characterNameObserver = Observer<String> { characterName ->
+            if (characterName == "") {
+                binding.tvName.text = Constants.NO_NAME
+            } else {
+                binding.tvName.text = characterName
+            }
+        }
         characterDetailViewModel.characterName?.observe(this, characterNameObserver)
     }
 
+
+    /**This method dynamically add the list of comics if there are any
+     * We add here the text properties : color and size
+     */
     private fun setComicsAppearanceDynamically(comics: List<ItemsItem>?) {
         if (comics?.isEmpty() == true) {
             val tvDynamic = TextView(this)
             tvDynamic.textSize = 15f
-            tvDynamic.setTextColor(ContextCompat.getColor(this,R.color.white))
             tvDynamic.text = Constants.NO_COMICS
             tvDynamic.setTextColor(ContextCompat.getColor(this,R.color.white))
             binding.llComicsLayout.addView(tvDynamic)
@@ -98,6 +131,10 @@ class CharacterDetailActivity : AppCompatActivity() {
         }
     }
 
+
+    /**Required method to set the character id in order to get the details from the API endpoint
+     *
+     */
     private fun setCharacterId(characterId: Int) {
         characterDetailViewModel.setCharacterId(characterId)
     }

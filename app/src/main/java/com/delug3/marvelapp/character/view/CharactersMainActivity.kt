@@ -32,6 +32,9 @@ class CharactersMainActivity : AppCompatActivity() {
     }
 
 
+    /**This method set up the recyclerview
+     * Changes to decoration and layout must be done here
+     */
     private fun setUpRecyclerView() {
         charactersListAdapter = CharactersListAdapter(this, charactersList)
         binding.recyclerViewCharacters.adapter = charactersListAdapter
@@ -46,6 +49,10 @@ class CharactersMainActivity : AppCompatActivity() {
         )
     }
 
+
+    /**This method checks the connectivity,
+     * if internet is available then the data is sent to the adapter
+     */
     private fun checkConnectivity() {
         if (CommonUtils.isInternetAvailable(this)) {
             sendDataToAdapter()
@@ -54,17 +61,33 @@ class CharactersMainActivity : AppCompatActivity() {
         }
     }
 
+
+    /**This method observe a viewmodel value, when the value changes, triggers this method
+     *A message is shown in case that no data is available to be sent to the adapter
+     */
     private fun sendDataToAdapter() {
-        charactersViewModel.fetchCharacters()?.observe(this, { characters ->
-            characters?.let { charactersListAdapter?.setCharacters(it) }
+        charactersViewModel.fetchCharacters().observe(this, { characters ->
+            if (characters == null) {
+                Toast.makeText(applicationContext, Constants.NO_DATA, Toast.LENGTH_SHORT).show()
+            } else {
+                characters.let { charactersListAdapter?.setCharacters(it) }
+            }
         })
     }
 
+
+    /**This method open a new activity sending the character ID based in the current position
+     * @param position: Int  receive the position in the recyclerView list
+     */
     fun onCharacterItemClick(position: Int) {
         val characterId: Int? = charactersList[position]?.id
         openCharacterActivityDetails(characterId)
     }
 
+
+    /**This method open a new activity
+     * @param characterId: Int? receive the id so we can obtain more data in the next screen
+     */
     private fun openCharacterActivityDetails(characterId: Int?) {
         val intent = Intent(this, CharacterDetailActivity::class.java)
         intent.putExtra(Constants.CHARACTER_ID, characterId)

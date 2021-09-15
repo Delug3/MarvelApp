@@ -18,10 +18,18 @@ class CharacterDetailViewModel : ViewModel() {
     val characterThumbnail: MutableLiveData<Thumbnail> by lazy { MutableLiveData<Thumbnail>() }
     val characterAppearanceInComics: MutableLiveData<List<ItemsItem>?> by lazy { MutableLiveData<List<ItemsItem>?>() }
 
+
+    /**This method set up the character id that we will use in the coroutine
+     *
+     */
     fun setCharacterId(characterId: Int) {
         this.id = characterId
     }
 
+
+    /**This method obtain the details of a single character from an endpoint
+     * We just have to specify the character id
+     */
     fun getCharacterDetails() {
         viewModelScope.launch {
             try {

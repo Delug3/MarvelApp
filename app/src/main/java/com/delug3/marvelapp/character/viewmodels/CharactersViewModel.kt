@@ -1,5 +1,6 @@
 package com.delug3.marvelapp.character.viewmodels
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,10 +13,15 @@ import kotlinx.coroutines.launch
 
 class CharactersViewModel : ViewModel() {
 
+    /**
+     * This method return a list from an endpoint
+     * @param MutableLiveData<List<ResultsItem>>  mutable list where we store the
+     * data that is coming from the endpoint
+     * @return  characters list
+     */
     fun fetchCharacters(): MutableLiveData<List<ResultsItem>> {
         val charactersList: MutableLiveData<List<ResultsItem>> =
             MutableLiveData<List<ResultsItem>>()
-        //TODO add comments
         viewModelScope.launch {
             try {
                 val response = getClientPublic?.create(CharacterApiService::class.java)
