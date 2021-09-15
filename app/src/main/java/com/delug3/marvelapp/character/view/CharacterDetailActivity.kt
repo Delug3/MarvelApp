@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.delug3.marvelapp.R
 import com.delug3.marvelapp.character.model.ItemsItem
@@ -84,11 +85,13 @@ class CharacterDetailActivity : AppCompatActivity() {
             val tvDynamic = TextView(this)
             tvDynamic.textSize = 15f
             tvDynamic.text = Constants.NO_COMICS
+            tvDynamic.setTextColor(ContextCompat.getColor(this,R.color.white))
             binding.llComicsLayout.addView(tvDynamic)
         } else {
             for (i in comics?.indices!!) {
                 val tvDynamic = TextView(this)
                 tvDynamic.textSize = 15f
+                tvDynamic.setTextColor(ContextCompat.getColor(this,R.color.white))
                 tvDynamic.text = comics[i].name
                 binding.llComicsLayout.addView(tvDynamic)
             }
