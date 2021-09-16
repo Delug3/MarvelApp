@@ -1,7 +1,10 @@
 package com.delug3.marvelapp.character.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +16,13 @@ import com.delug3.marvelapp.character.viewmodels.CharactersViewModel
 import com.delug3.marvelapp.common.utilities.CommonUtils
 import com.delug3.marvelapp.common.utilities.Constants
 import com.delug3.marvelapp.databinding.ActivityMainCharactersBinding
+import androidx.recyclerview.widget.RecyclerView
+
+import com.google.android.material.snackbar.Snackbar
 
 
-class CharactersMainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainCharactersBinding
+class CharactersMainActivity : AppCompatActivity()  {
+    private lateinit var binding: ActivityMainCharactersBinding
     private var charactersListAdapter: CharactersListAdapter? = null
     private var charactersList: ArrayList<ResultsItem?> = ArrayList()
     private val charactersViewModel: CharactersViewModel by viewModels()
@@ -28,7 +34,19 @@ class CharactersMainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpRecyclerView()
+        setUpSwipeRefresh()
         checkConnectivity()
+    }
+
+
+    /**This method set up the swipe refresh in case we need to refresh the characters list
+     *
+     */
+    private fun setUpSwipeRefresh() {
+        binding.swipeRefreshItems.setOnRefreshListener {
+            sendDataToAdapter()
+            binding.swipeRefreshItems.isRefreshing = false
+        }
     }
 
 
@@ -43,10 +61,42 @@ class CharactersMainActivity : AppCompatActivity() {
         binding.recyclerViewCharacters.layoutManager = layoutManager
         binding.recyclerViewCharacters.addItemDecoration(
             DividerItemDecoration(
-                binding.recyclerViewCharacters.getContext(),
+                binding.recyclerViewCharacters.context,
                 DividerItemDecoration.VERTICAL
             )
         )
+        binding.recyclerViewCharacters.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)){
+                    showCustomSnackBar()
+                    updateOffSet()
+                    sendDataToAdapter()
+                }
+            }
+
+        })
+    }
+
+    /**This method shows a custom snackBar when we need to obtain more characters
+     *
+     */
+    private fun showCustomSnackBar() {
+        val snackBar = Snackbar.make(binding.constraintLayout, Constants.LOADING, Snackbar.LENGTH_SHORT)
+            val snackBarView = snackBar.view
+        snackBarView.setBackgroundColor(Color.BLACK)
+            val textView = snackBarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+            textView.setTextColor(Color.RED)
+            textView.textSize = 20f
+        snackBar.show()
+    }
+
+
+    /**This method increase the offset for pagination purposes
+     *
+     */
+    private fun updateOffSet() {
+        charactersViewModel.updateOffset()
     }
 
 
@@ -62,7 +112,7 @@ class CharactersMainActivity : AppCompatActivity() {
     }
 
 
-    /**This method observe a viewmodel value, when the value changes, triggers this method
+    /**This method observe a viewModel value, when the value changes, triggers this method
      *A message is shown in case that no data is available to be sent to the adapter
      */
     private fun sendDataToAdapter() {
