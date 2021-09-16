@@ -52,7 +52,8 @@ class CharactersListAdapter(
             } else {
                 binding.tvName.text = resultsItem.name
             }
-            Picasso.get().load(R.drawable.error).into(binding.ivCharacterImage)
+            val thumbnail = "${resultsItem.thumbnail?.path}.${resultsItem.thumbnail?.extension}"
+            Picasso.get().load(thumbnail).into(binding.ivCharacterImage)
         }
     }
 
