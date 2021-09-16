@@ -30,6 +30,7 @@ class CharacterDetailViewModel : ViewModel() {
     /**This method obtain the details of a single character from an endpoint
      * We just have to specify the character id
      */
+    @Suppress("UNCHECKED_CAST")
     fun getCharacterDetails() {
         viewModelScope.launch {
             try {

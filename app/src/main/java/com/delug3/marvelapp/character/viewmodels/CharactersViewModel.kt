@@ -19,6 +19,7 @@ class CharactersViewModel : ViewModel() {
      * data that is coming from the endpoint
      * @return  characters list
      */
+    @Suppress("UNCHECKED_CAST")
     fun fetchCharacters(): MutableLiveData<List<ResultsItem>> {
         val charactersList: MutableLiveData<List<ResultsItem>> =
             MutableLiveData<List<ResultsItem>>()
@@ -30,6 +31,7 @@ class CharactersViewModel : ViewModel() {
                         Constants.hashKey(),
                         Constants.LIMIT,
                         offSet)
+
                 charactersList.value = response?.data?.results as List<ResultsItem>?
 
             } catch (exception: Exception) {
