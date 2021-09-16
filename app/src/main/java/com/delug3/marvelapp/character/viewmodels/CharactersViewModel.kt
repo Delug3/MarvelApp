@@ -1,6 +1,5 @@
 package com.delug3.marvelapp.character.viewmodels
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +11,7 @@ import com.delug3.marvelapp.common.utilities.Constants
 import kotlinx.coroutines.launch
 
 class CharactersViewModel : ViewModel() {
+    private var offSet: Int = 0
 
     /**
      * This method return a list from an endpoint
@@ -25,8 +25,11 @@ class CharactersViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = getClientPublic?.create(CharacterApiService::class.java)
-                    ?.getCharacters(Constants.timeStamp, Constants.PUBLIC_KEY, Constants.hashKey())
-
+                    ?.getCharacters(Constants.timeStamp,
+                        Constants.PUBLIC_KEY,
+                        Constants.hashKey(),
+                        Constants.LIMIT,
+                        offSet)
                 charactersList.value = response?.data?.results as List<ResultsItem>?
 
             } catch (exception: Exception) {
@@ -34,6 +37,10 @@ class CharactersViewModel : ViewModel() {
             }
         }
         return charactersList
+    }
+
+    fun updateOffset() {
+        offSet += 15
     }
 
 }
