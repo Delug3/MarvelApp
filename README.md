@@ -50,6 +50,6 @@ Picasso
 Swipe Refresh
 
 # Screenshots
-<img src="https://github.com/Delug3/MarvelApp/blob/master/main_activity.png" width="200"> <img src="https://github.com/Delug3/MarvelApp/blob/master/detail_activity.png" width="200">
+<img src="https://github.com/Delug3/MarvelApp/blob/master/main_activity_list.png" width="200"> <img src="https://github.com/Delug3/MarvelApp/blob/master/detail_activity.png" width="200">
 
 
