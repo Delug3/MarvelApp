@@ -1,10 +1,12 @@
 package com.delug3.marvelapp.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.delug3.marvelapp.data.model.ResultsItem
 import com.delug3.marvelapp.data.model.ResultsWithUrls
+import com.delug3.marvelapp.data.model.UrlsItem
 import com.delug3.marvelapp.data.repository.CharactersDatabaseDataSource
 import com.delug3.marvelapp.data.repository.CharactersNetworkDataSource
 
@@ -33,10 +35,11 @@ class CharactersViewModel(private val charactersNetworkDataSource: CharactersNet
                     Constants.LIMIT,
                     offSet)
 
-
                 charactersList.value = response.data?.results as List<ResultsItem>?
-
                 insertCharactersInRoomDatabase(charactersList.value)
+
+                val urls =  response.data?.results as List<ResultsItem>
+                setUrlElementsIntoDatabase(urls)
 
 
             } catch (exception: Exception) {
@@ -44,6 +47,16 @@ class CharactersViewModel(private val charactersNetworkDataSource: CharactersNet
             }
         }
         return charactersList
+    }
+
+    private suspend fun setUrlElementsIntoDatabase(urls: List<ResultsItem>) {
+        urls.forEach {
+            insertUrlsInRoomDatabase(it.urls)
+        }
+    }
+
+    private suspend fun insertUrlsInRoomDatabase(urls: List<UrlsItem?>?) {
+        charactersDatabaseDataSource.insertAllUrls(urls)
     }
 
     private suspend fun insertCharactersInRoomDatabase(characterList: List<ResultsItem>?) {

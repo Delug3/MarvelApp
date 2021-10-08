@@ -10,6 +10,10 @@ data class ResultsItem(
     var thumbnail: Thumbnail? = null,
 
     @Ignore
+    @field:SerializedName("urls")
+    var urls: List<UrlsItem?>? = null,
+
+    @Ignore
     @field:SerializedName("stories")
     var stories: Stories? = null,
 
